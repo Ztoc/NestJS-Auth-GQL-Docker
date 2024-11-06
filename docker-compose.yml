@@ -8,6 +8,12 @@ services:
       - ./pgdata:/var/lib/postgresql/data
     ports:
       - '5433:5432'
+  redis: # Name of container
+    image: redis
+    ports:
+      - 6379:6379
+    volumes:
+      - redis:/data
 
   app:
     build:
@@ -20,6 +26,7 @@ services:
       - '3000:3000'
     depends_on:
       - db
+      - redis
     volumes:
       - ./src:/app/src
 
@@ -34,3 +41,7 @@ services:
       - '5050:80'
     depends_on:
       - db
+
+volumes:
+  redis:
+    driver: local
