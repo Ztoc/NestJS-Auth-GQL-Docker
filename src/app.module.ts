@@ -31,7 +31,7 @@ import { BookResolver } from './book/book.resolver';
     port: 6379,
   }), GraphQLModule.forRoot<ApolloDriverConfig>({
     driver: ApolloDriver,
-    playground: true, // Set to false in production. It enables the GraphQL Playground where you can test your queries.
+    playground: true,
     typePaths: ['./**/*.graphql'], // Specify the location of GraphQL files. It tells the server where to find our type definitions.
   }),
   BookResolver,],
