@@ -8,6 +8,10 @@ import { AuthModule } from './auth/auth.module';
 import { HelloModule } from './hello/hello.module';
 import { CacheModule } from '@nestjs/cache-manager';
 import * as redisStore from 'cache-manager-redis-store';
+import { ApolloDriver } from '@nestjs/apollo';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriverConfig } from '@nestjs/apollo';
+import { BookResolver } from './book/book.resolver';
 
 @Module({
   imports: [UsersModule, TypeOrmModule.forRoot({
@@ -25,7 +29,12 @@ import * as redisStore from 'cache-manager-redis-store';
     store: redisStore,
     host: 'redis',
     port: 6379,
-  }),],
+  }), GraphQLModule.forRoot<ApolloDriverConfig>({
+    driver: ApolloDriver,
+    playground: true, // Set to false in production. It enables the GraphQL Playground where you can test your queries.
+    typePaths: ['./**/*.graphql'], // Specify the location of GraphQL files. It tells the server where to find our type definitions.
+  }),
+  BookResolver,],
   controllers: [AppController, AuthController],
   providers: [AppService],
 })
